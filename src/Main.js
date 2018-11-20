@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import * as firebase from 'firebase';
-
+//spring boot
 const styles = theme => ({
     root: {
         width: '100%',
@@ -69,7 +69,6 @@ class Main extends Component {
     }
     render() {
         return (
-            <div>
                 <Paper className={styles.root}>
                     <Table className={styles.table}>
                         <TableHead>
@@ -96,22 +95,6 @@ class Main extends Component {
                         </TableBody>
                     </Table>
                 </Paper>
-                <Modal
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                    open={this.state.open}
-                    onClose={this.handleClose}
-                >
-                    <div style={this.getModalStyle}>
-                        <Typography variant="h6" id="modal-title">
-                            Text in a modal
-              </Typography>
-                        <Typography variant="subtitle1" id="simple-modal-description">
-                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </Typography>
-                    </div>
-                </Modal>
-            </div>
         );
     }
 }
