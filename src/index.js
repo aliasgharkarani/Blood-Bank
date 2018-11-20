@@ -7,16 +7,23 @@ import Main from './Main';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import SignUp from './SignUp';
-
-
+import * as firebase from 'firebase'
+var config = {
+  apiKey: "AIzaSyDx-yeGlXTz8q6Gb-Mm7R3Op8JHYbkAqQo",
+  authDomain: "bloodbank-cmad.firebaseapp.com",
+  databaseURL: "https://bloodbank-cmad.firebaseio.com",
+  projectId: "bloodbank-cmad",
+  storageBucket: "bloodbank-cmad.appspot.com",
+  messagingSenderId: "328442220597"
+};
+firebase.initializeApp(config);  
 
 ReactDOM.render(<Router>
     <div>
-      {/* <App /> */}
       <Route exact path="/" component={App} />
+      <Route exact path="/SignUp" component={SignUp} />
       <Route exact path="/SignIn" component={SignIn} />
       <Route exact path="/Main" component={Main} />
-      <Route exact path="/SignUp" component={SignUp} />
 
     
       {/* <Route exact path="/about" component={About} /> */}

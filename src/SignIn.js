@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
+import * as firebase from 'firebase';
+import { Link } from 'react-router-dom';
 
 // Used!
 import AppBar from '@material-ui/core/AppBar';
@@ -45,12 +46,21 @@ class SignIn extends Component {
             Password: ''
         }
     }
-       SignIn(){
-          if(this.state.email === "aliasgharkarani125@hotmail.com" && this.state.Password === "abc" ){
-              this.props.history.push('/Main')
-          }
-      }
-      //After Render
+    SignIn() {
+        let user = {
+            email: this.state.email,
+            Password: this.state.Password
+        }
+        firebase.auth().signInWithEmailAndPassword(user.email, user.Password)
+            .then((studentcreatedUser) => {
+                // user.uid = studentcreatedUser.uid;
+                console.log("Working");
+                this.props.history.push('/Main')
+            }).catch(
+                (Error) => { alert(Error.message);  console.log("Not Working!!!!!!!!")}
+            )
+    }
+    //After Render
     // componentDidMount() {
     //     //   if(this.state.email === "aliasgharkarani125@hotmail.com" && this.state.Password === "abc" ){
     //     console.log(this.state.email,this.state.Password) 
@@ -67,7 +77,7 @@ class SignIn extends Component {
                         <Typography variant="h6" color="inherit" style={styles.grow}>
                             Blood Bank
                  </Typography>
-                        <Button color="inherit" onClick={() => alert('Hi How are you?')}>SignUp</Button>
+                        <Button color="inherit"><Link style={{color:"white"}} to="/SignUp">SignUp</Link></Button>
                     </Toolbar>
                 </AppBar>
 
