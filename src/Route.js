@@ -16,7 +16,7 @@ function PrivateRoute({ component: Component, authed, ...rest }) {
             {...rest}
             render={(props) => authed === true
                 ? <Component {...props} />
-                : <Redirect to={{ pathname: '/SignIn', state: { from: props.location } }} />}
+                : <Redirect to={{ pathname: '/Main', state: { from: props.location } }} />}
         />
     )
 }
@@ -61,11 +61,12 @@ class Routers extends Component {
             <div>
                 <Router history={history}>
                     <Switch>
-                        <Route exact path="/" component={App} />
+                        <Route exact path="/" component={Main} />
                         <Route exact path="/SignUp" component={SignUp} />
                         <Route exact path="/SignIn" component={SignIn} />
                         {/* <Route exact path="/Main" component={Main} /> */}
-                        <PrivateRoute authed={this.state.authed} path="/Main" component={Main} />
+                        {/* <PrivateRoute authed={this.state.authed} path="/Main" component={Main} /> */}
+                    
                         {/* <PrivateRoute3 authed={this.state.authed} path="/studentdata" component={Studentdata} />
                         <PrivateRoute4 authed={this.state.authed} path="/studentprofile" component={StudentProfile} />
                         <PrivateRoute5 authed={this.state.authed} path="/companyprofile" component={Companyprofile} /> */}

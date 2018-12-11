@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
+import MenuItem from '@material-ui/core/MenuItem'
 import Typography from '@material-ui/core/Typography';
 import * as firebase from 'firebase';
 //spring boot
@@ -22,6 +23,8 @@ const styles = theme => ({
     },
 });
 
+
+
 class Main extends Component {
     constructor(props) {
         super(props);
@@ -30,29 +33,50 @@ class Main extends Component {
             Password: '',
             data: [],
             loader: false,
-            open: true,
+            input:"",
+            // open: true,
         }
     }
-
-    handleOpen = () => {
-        this.setState({ open: true });
-    };
-
-    handleClose = () => {
-        this.setState({ open: false });
-    };
-    rand = () => {
-        return Math.round(Math.random() * 20) - 10;
-    }
-    getModalStyle = () => {
-        const top = 50 + this.rand();
-        const left = 50 + this.rand();
-
-        return {
-            top: `${top}%`,
-            left: `${left}%`,
-            transform: `translate(-${top}%, -${left}%)`,
-        };
+    filter = () => {
+        // console.log(this.state.input);
+        // console.log(this.state.data);
+        let userInput=(this.state.input).toUpperCase();
+        let array=this.state.data;
+        let newArray=[];
+        if(userInput=="A"){
+           for(let i=0;i<array.length;i++)
+            {
+                if(array[i].BloodGroup=="A"||array[i].BloodGroup=="AB")
+                {
+                   newArray.push(array[i]);
+                }
+            }
+        }
+        if(userInput=="B"){
+            for(let i=0;i<array.length;i++)
+             {
+                 if(array[i].BloodGroup=="B"||array[i].BloodGroup=="AB")
+                 {
+                    newArray.push(array[i]);
+                 }
+             }
+         }
+         if(userInput=="AB"){
+            for(let i=0;i<array.length;i++)
+             {
+                 if(array[i].BloodGroup=="AB")
+                 {
+                    newArray.push(array[i]);
+                 }
+             }
+         }
+        console.log(newArray," New Array");
+        
+      }
+    handlechange = (event) => {
+        this.setState({
+            input:event.target.value
+        })
     }
     componentWillMount() {
         this.setState({ loader: true })
@@ -69,32 +93,34 @@ class Main extends Component {
     }
     render() {
         return (
-                <Paper className={styles.root}>
-                    <Table className={styles.table}>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell numeric>Email</TableCell>
-                                <TableCell numeric>Phone no.</TableCell>
-                                <TableCell numeric>Blood Group</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {this.state.data.map((donors, index) => {
-                                return (
-                                    <TableRow key={index} onClick={() => this.handleOpen}>
-                                        <TableCell component="th" scope="row">
-                                            {donors.name}
-                                        </TableCell>
-                                        <TableCell numeric>{donors.email}</TableCell>
-                                        <TableCell numeric>{donors.Phoneno}</TableCell>
-                                        <TableCell numeric>{donors.BloodGroup}</TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </Paper>
+            <Paper className={styles.root}>
+                <input type="text" value={this.state.input} onChange={this.handlechange} />
+                <button onClick={this.filter}>Check</button>
+                <Table className={styles.table}>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell numeric>Email</TableCell>
+                            <TableCell numeric>Phone no.</TableCell>
+                            <TableCell numeric>Blood Group</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {this.state.data.map((donors, index) => {
+                            return (
+                                <TableRow key={index} onClick={() => this.handleOpen}>
+                                    <TableCell component="th" scope="row">
+                                        {donors.name}
+                                    </TableCell>
+                                    <TableCell numeric>{donors.email}</TableCell>
+                                    <TableCell numeric>{donors.Phoneno}</TableCell>
+                                    <TableCell numeric>{donors.BloodGroup}</TableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </Paper>
         );
     }
 }
