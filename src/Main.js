@@ -11,6 +11,7 @@ import Modal from '@material-ui/core/Modal';
 import MenuItem from '@material-ui/core/MenuItem'
 import Typography from '@material-ui/core/Typography';
 import * as firebase from 'firebase';
+import { filter } from 'rsvp';
 //spring boot
 const styles = theme => ({
     root: {
@@ -24,7 +25,6 @@ const styles = theme => ({
 });
 
 
-
 class Main extends Component {
     constructor(props) {
         super(props);
@@ -32,51 +32,128 @@ class Main extends Component {
             email: 'aliasgharkarani125@hotmail.com',
             Password: '',
             data: [],
+            orignal: [],
             loader: false,
-            input:"",
+            input: "",
             // open: true,
         }
     }
     filter = () => {
-        // console.log(this.state.input);
-        // console.log(this.state.data);
-        let userInput=(this.state.input).toUpperCase();
-        let array=this.state.data;
-        let newArray=[];
-        if(userInput=="A"){
-           for(let i=0;i<array.length;i++)
-            {
-                if(array[i].BloodGroup=="A"||array[i].BloodGroup=="AB")
-                {
-                   newArray.push(array[i]);
-                }
-            }
-        }
-        if(userInput=="B"){
-            for(let i=0;i<array.length;i++)
-             {
-                 if(array[i].BloodGroup=="B"||array[i].BloodGroup=="AB")
-                 {
-                    newArray.push(array[i]);
-                 }
-             }
-         }
-         if(userInput=="AB"){
-            for(let i=0;i<array.length;i++)
-             {
-                 if(array[i].BloodGroup=="AB")
-                 {
-                    newArray.push(array[i]);
-                 }
-             }
-         }
-        console.log(newArray," New Array");
-        
-      }
+        // let userInput=(this.state.input).toUpperCase();
+        // let array=this.state.data;
+        // let orignal=this.state.data;
+        // let newArray=[];
+        // if(userInput=="O"){
+        //     for(let i=0;i<array.length;i++)
+        //      {
+        //          if(array[i].BloodGroup=="O"||array[i].BloodGroup=="A"||array[i].BloodGroup=="B"||array[i].BloodGroup=="AB")
+        //          {
+        //             newArray.push(array[i]);
+        //          }
+        //      }
+        //      this.setState({
+        //          data:newArray
+        //      })
+        //  }
+        // else if(userInput=="A"){
+        //    for(let i=0;i<array.length;i++)
+        //     {
+        //         if(array[i].BloodGroup=="A"||array[i].BloodGroup=="AB")
+        //         {
+        //            newArray.push(array[i]);
+        //         }
+        //     }
+        //     this.setState({
+        //         data:newArray
+        //     })
+        // }
+        // else if(userInput=="B"){
+        //     for(let i=0;i<array.length;i++)
+        //      {
+        //          if(array[i].BloodGroup=="B"||array[i].BloodGroup=="AB")
+        //          {
+        //             newArray.push(array[i]);
+        //          }
+        //      }
+        //      this.setState({
+        //         data:newArray
+        //     })
+        //  }
+        // else if(userInput=="AB"){
+        //     for(let i=0;i<array.length;i++)
+        //      {
+        //          if(array[i].BloodGroup=="AB")
+        //          {
+        //             newArray.push(array[i]);
+        //          }
+        //      }
+        //      this.setState({
+        //         data:newArray
+        //     })
+        //  }
+        //  else{
+        //     this.setState({
+        //         data:orignal
+        //     })
+        //  }        
+    }
     handlechange = (event) => {
         this.setState({
-            input:event.target.value
+            input: event.target.value
         })
+        console.log((event.target.value).toUpperCase()," Upper Case")
+        // let userInput = (this.state.input).toUpperCase();
+        let array = this.state.orignal;
+        // let data = this.state.data;
+        let newArray = [];
+        if ((event.target.value).toUpperCase() == "O") {
+            for (let i = 0; i < array.length; i++) {
+                if (array[i].BloodGroup == "O" || array[i].BloodGroup == "A" || array[i].BloodGroup == "B" || array[i].BloodGroup == "AB") {
+                    newArray.push(array[i]);
+                }
+            }
+            this.setState({
+                data: newArray
+            })
+        }
+        else if ((event.target.value).toUpperCase() == "A") {
+            for (let i = 0; i < array.length; i++) {
+                if (array[i].BloodGroup == "A" || array[i].BloodGroup == "AB") {
+                    newArray.push(array[i]);
+                }
+            }
+            this.setState({
+                data: newArray
+            })
+        }
+        else if ((event.target.value).toUpperCase() == "B") {
+            for (let i = 0; i < array.length; i++) {
+                if (array[i].BloodGroup == "B" || array[i].BloodGroup == "AB") {
+                    newArray.push(array[i]);
+                }
+            }
+            this.setState({
+                data: newArray
+            })
+        }
+        else if ((event.target.value).toUpperCase() == "AB") {
+            for (let i = 0; i < array.length; i++) {
+                if (array[i].BloodGroup == "AB") {
+                    newArray.push(array[i]);
+                }
+            }
+            this.setState({
+                data: newArray
+            })
+        }
+        else {
+            this.setState({
+                data: array
+            })
+            console.log(array," Orignal")
+        }
+
+        // this.filter();
     }
     componentWillMount() {
         this.setState({ loader: true })
@@ -88,14 +165,14 @@ class Main extends Component {
             for (let keys in data) {
                 array.push(data[keys])
             }
-            this.setState({ data: array, loader: false })
+            this.setState({ data: array,orignal:array,loader: false })
         });
     }
     render() {
         return (
             <Paper className={styles.root}>
                 <input type="text" value={this.state.input} onChange={this.handlechange} />
-                <button onClick={this.filter}>Check</button>
+                {/* <button onClick={this.filter}>Check</button> */}
                 <Table className={styles.table}>
                     <TableHead>
                         <TableRow>
